@@ -164,6 +164,8 @@ track2df <- function(ncfile){
   mlat <- ncvar_get(nc, varid="lat", start=c(1,1), count=c(ts,tp))  # [nt=201,ntrac=959], [nt,ntrac]   
   mlon <- ncvar_get(nc, varid="lon", start=c(1,1), count=c(ts,tp))  # [nt=201,ntrac=959]
   mt <- ncvar_get(nc, varid="time", start=c(1,1), count=c(ts,tp))   # [nt=201,ntrac=959]
+  msst <- ncvar_get(nc, varid="sst", start=c(1,1), count=c(ts,tp))   # [nt=201,ntrac=959]
+  
   
   # close nc
   nc_close(nc)
@@ -172,8 +174,9 @@ track2df <- function(ncfile){
   lon <- as.vector(mlon[,])
   lat <- as.vector(mlat[,])
   time <- as.vector(mt[,])
+  sst <- as.vector(msst[,])
   id <- rep(id, each=ts)
-  dt <- data.frame(id, time, lon, lat)
+  dt <- data.frame(id, time, lon, lat, sst)
   
   # filter NA data (beached particles)
   # trackpy assigns NA once the particle reaches the coastline
